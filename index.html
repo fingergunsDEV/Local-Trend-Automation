@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Material Design 3 Card</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.css.google.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Light gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f2f5;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Tailwind gray-300 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Tailwind gray-400 */
+        }
+    </style>
+</head>
+<body class="selection:bg-blue-200 selection:text-blue-800">
+    <!-- Main Container for responsiveness -->
+    <div class="w-full max-w-md mx-auto">
+        <!-- Material Design 3 Card Component -->
+        <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 transition-all duration-300 hover:shadow-2xl">
+            <h1 class="text-3xl font-semibold text-gray-800 mb-4">Lead Generation Dashboard</h1>
+            <p class="text-gray-600 mb-6 leading-relaxed">
+                Monitor search analytics trends and automate lead extraction from your spreadsheets daily.
+                This interface provides a glimpse into how you can visualize and interact with your automated tasks.
+            </p>
+
+            <div class="space-y-4 mb-6">
+                <!-- Input Field Example -->
+                <div>
+                    <label for="keyword" class="block text-sm font-medium text-gray-700 mb-1">Keyword to Monitor</label>
+                    <input
+                        type="text"
+                        id="keyword"
+                        placeholder="e.g., 'sustainable packaging solutions'"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none
+                               shadow-sm placeholder-gray-400 text-gray-800"
+                    >
+                </div>
+
+                <!-- Select Field Example -->
+                <div>
+                    <label for="frequency" class="block text-sm font-medium text-gray-700 mb-1">Automation Frequency</label>
+                    <select
+                        id="frequency"
+                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none
+                               shadow-sm text-gray-800 bg-white appearance-none pr-8"
+                        style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%20viewBox%3D%220%200%20292.4%20292.4%22%3E%3Cpath%20fill%3D%22%236B7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13%205.7L146.2%20202.7%2018.8%2075.1a17.6%2017.6%200%200%200-25.3%2024.5l130.4%20127.9c7.2%207%2017.1%2010.4%2027.5%2010.4s20.3-3.4%2027.5-10.4l130.4-127.9c12.3-12%2012.3-31.4%200-43.4a17.6%2017.6%200%200%200-13-5.7z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 0.75rem center; background-size: 0.8rem 0.8rem;"
+                    >
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Message Display Area -->
+            <div id="message-area" class="mt-4 p-3 rounded-lg text-sm text-center hidden" role="alert"></div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button
+                    id="start-automation-btn"
+                    class="flex-1 bg-blue-600 text-white py-3 px-5 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                           transition-all duration-200 font-medium text-lg transform hover:scale-105 active:scale-95"
+                >
+                    <span class="mr-2">🚀</span> Start Automation
+                </button>
+                <button
+                    id="configure-settings-btn"
+                    class="flex-1 bg-gray-200 text-gray-800 py-3 px-5 rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
+                           transition-all duration-200 font-medium text-lg transform hover:scale-105 active:scale-95"
+                >
+                    <span class="mr-2">⚙️</span> Configure Settings
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get references to elements
+        const keywordInput = document.getElementById('keyword');
+        const frequencySelect = document.getElementById('frequency');
+        const startAutomationBtn = document.getElementById('start-automation-btn');
+        const configureSettingsBtn = document.getElementById('configure-settings-btn');
+        const messageArea = document.getElementById('message-area');
+
+        /**
+         * Displays a message in the message area.
+         * @param {string} message - The message to display.
+         * @param {string} type - The type of message ('success', 'error', 'info').
+         */
+        function displayMessage(message, type) {
+            messageArea.textContent = message;
+            messageArea.classList.remove('hidden', 'bg-green-100', 'text-green-800', 'bg-red-100', 'text-red-800', 'bg-blue-100', 'text-blue-800');
+            if (type === 'success') {
+                messageArea.classList.add('bg-green-100', 'text-green-800');
+            } else if (type === 'error') {
+                messageArea.classList.add('bg-red-100', 'text-red-800');
+            } else {
+                messageArea.classList.add('bg-blue-100', 'text-blue-800'); // Default to info
+            }
+            messageArea.classList.remove('hidden');
+        }
+
+        /**
+         * Handles the "Start Automation" button click.
+         * Simulates an API call to a backend.
+         */
+        startAutomationBtn.addEventListener('click', async () => {
+            const keyword = keywordInput.value.trim();
+            const frequency = frequencySelect.value;
+
+            if (!keyword) {
+                displayMessage('Please enter a keyword to monitor.', 'error');
+                return;
+            }
+
+            displayMessage(`Starting daily automation for "${keyword}"...`, 'info');
+            startAutomationBtn.disabled = true; // Disable button during processing
+
+            try {
+                // Simulate API call to Python backend
+                // In a real application, you would use fetch() here:
+                /*
+                const response = await fetch('/start_automation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ keyword, frequency }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    displayMessage(result.message, 'success');
+                } else {
+                    displayMessage(`Error: ${result.error || 'Something went wrong.'}`, 'error');
+                }
+                */
+
+                // Simulating a successful response after a delay
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                displayMessage(`Automation for "${keyword}" scheduled ${frequency} successfully!`, 'success');
+
+            } catch (error) {
+                console.error('Error starting automation:', error);
+                displayMessage('Failed to start automation. Please try again.', 'error');
+            } finally {
+                startAutomationBtn.disabled = false; // Re-enable button
+            }
+        });
+
+        /**
+         * Handles the "Configure Settings" button click.
+         * For now, just displays a message. In a real app, this might open a modal or navigate.
+         */
+        configureSettingsBtn.addEventListener('click', () => {
+            displayMessage('Configuration settings feature coming soon!', 'info');
+        });
+    </script>
+</body>
+</html>
